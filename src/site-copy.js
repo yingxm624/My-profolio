@@ -1,5 +1,7 @@
 // Editable personal copy. Keep line breaks intentional in both languages.
 export const siteCopy = {
+  worksTitle: { zh: ['项目与探索'], en: ['Work & exploration'] },
+  notFoundTitle: { zh: ['这页还没被画出来。'], en: ['This page has not been drawn yet.'] },
   role: { zh: '体验 / 服务设计', en: 'Experience / Service Design' },
   interest: { zh: '也画猫猫', en: 'Also: drawing cats' },
   heroTitle: {

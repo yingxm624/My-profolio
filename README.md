@@ -39,13 +39,17 @@ npm run export:offline
 
 ## 页面与交互
 
-### 字体方向预览
+### 已确认的字体系统
 
-`#/type-preview` 是独立预览，仅展示首屏与两张 Playground 拼贴。当前首页、完整作品和 About 不应用该字体方案。
+字体系统已应用于首页、作品列表、全部案例、About 和 404。`src/typography.css` 定义统一字体角色、字号、行距与响应式规则：
 
-标题已按新参考改为原生旧铅字候选：中文为特里王的汇文明朝体（使用 bosswnx 全角标点修正版，字体元数据 Public Domain，仓库 CC0）；英文为 Special Elite（Apache 2.0）。不是用滤镜模拟纹理，也未声称识别出参考图的确切字体。标题按真实文案缩小并收紧行距，仅用于首屏。正文与操作为 Noto Sans CJK SC；小赖手写仅保留在猫猫旁注，照片说明和 Playground 标题改回无衬线，减少字体竞争。配色、主站和交互保留。
+- 首页与页面主标题：中文汇文明朝体（特里王，bosswnx 全角标点修正版；Public Domain / CC0）＋英文 Special Elite（Apache 2.0），保留字体原生的旧铅字磨损，不加纹理滤镜或伪粗体。
+- 正文、导航、项目卡片、案例模块标题与操作：Noto Sans CJK SC。长内容保持安静可读，避免印刷字体铺满页面。
+- 猫咪旁的一句短注：小赖字体。其余说明使用无衬线，减少字体竞争。
 
-预览样式在 `src/typography-preview.css`；WOFF2 随站点托管，无外部字体请求。来源、作者、输入文件校验与许可在 `src/fonts/PRINT-PROVENANCE.json` 及对应许可文件。标题子集按 `src/site-copy.js` 的真实中英文首屏文案生成，缺字会中断；修改标题后用完整授权字体运行 `scripts/subset-print-fonts.py --chinese … --latin …`，运行需要 fonttools 和 brotli。正文与旁注子集仍由 `scripts/subset-preview-fonts.py` 维护。普通 npm 构建不需要 Python。
+奶油底、蓝紫色、动画与导航交互保留。`#/type-preview` 保留为两张 Playground 拼贴的字体样张，样式在 `src/typography-preview.css`，与主站共用字体。
+
+WOFF2 随站点托管，没有外部字体请求。来源、作者、输入校验、实际标题清单与许可在 `src/fonts/PRINT-PROVENANCE.json` 及对应许可文件。增删或修改 `src/site-copy.js`、项目标题后，用完整授权字体运行 `scripts/subset-print-fonts.py --chinese … --latin …` 重新生成标题字库；脚本读取实际中英文标题，缺字即中断。正文和旁注由 `scripts/subset-preview-fonts.py --notes …` 维护，字体工具需要 fonttools 和 brotli，普通 npm 构建不需要 Python。浏览器检查核实所有中英文主标题实际使用网页字体，没有系统字体回退，并检查三个屏幕宽度。
 
 - `#/`：首屏、两列真实作品、研究入口、Playground 与 Contact。
 - `#/?section=works` / `playground` / `contact`：页内定位。

@@ -166,9 +166,37 @@ try {
   await page.evaluate(() => {document.activeElement?.blur();window.scrollTo({top:0,behavior:'instant'});});
   await page.screenshot({path:path.join(typeShots,'mobile-zh.png'),animations:'disabled'});
   await page.goto(origin + '/#/');
-  assert.doesNotMatch(await page.locator('.hero h1').evaluate(el => getComputedStyle(el).fontFamily),/Ying (Study|Print)/);
+  assert.match(await page.locator('.hero h1').evaluate(el => getComputedStyle(el).fontFamily),/Ying Print Chinese/);
   assert.ok(!(await page.locator('body').getAttribute('class'))?.includes('type-preview-active'));
-  record('字体预览：中英文原生印刷字体、清晰正文与一处手写旁注、局部两张拼贴、原版未受影响、四项响应式检查');
+  record('字体样张：与主站共用已确认字体、局部两张拼贴、四项响应式检查');
+
+  // Read Chromium's actual glyph fonts, not only the CSS family declaration.
+  const fontSession = await context.newCDPSession(page);
+  await fontSession.send('DOM.enable');await fontSession.send('CSS.enable');
+  const fullSiteShots = path.join(typeShots,'full-site');await mkdir(fullSiteShots,{recursive:true});
+  for (const locale of ['zh','en']) {
+    await page.setViewportSize({width:1440,height:960});
+    await page.goto(origin + '/#/');await page.locator(`[data-language="${locale}"]`).click();
+    for (const route of ['/','/works','/about',...projects.map(p => '/works/'+p.slug),'/missing']) {
+      await page.goto(origin + '/#'+route);await page.locator('h1').waitFor();await page.evaluate(() => document.fonts.ready);
+      const {root:doc} = await fontSession.send('DOM.getDocument');
+      const {nodeId} = await fontSession.send('DOM.querySelector',{nodeId:doc.nodeId,selector:'h1'});
+      const {fonts} = await fontSession.send('CSS.getPlatformFontsForNode',{nodeId});
+      assert.ok(fonts.length>0,`${locale} ${route}: no title glyphs`);
+      assert.ok(fonts.every(font => font.isCustomFont && /^Ying Print/.test(font.familyName)),`${locale} ${route}: title fallback ${JSON.stringify(fonts)}`);
+      assert.equal(await page.locator('h1').evaluate(el => getComputedStyle(el).filter),'none');
+      for (const width of [375,768,1440]) {
+        await page.setViewportSize({width,height:960});
+        assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth+1),`${locale} ${route}: overflow at ${width}`);
+      }
+      if (['/','/works','/about','/works/loopy'].includes(route)) {
+        await page.evaluate(() => window.scrollTo({top:0,behavior:'instant'}));
+        await page.screenshot({path:path.join(fullSiteShots,`${locale}-${route==='/'?'home':route.replaceAll('/','-')}.png`),animations:'disabled'});
+      }
+    }
+  }
+  await fontSession.detach();
+  record('全站字体：中英文所有主标题实际字形无系统字体回退；全部页面在三个宽度下无横向溢出');
 
   const offlineContext = await browser.newContext({viewport:{width:1440,height:960},reducedMotion:'reduce'});
   const offline = await offlineContext.newPage();offline.on('pageerror',e => errors.push(e.message));const requests=[];offline.on('request',r => requests.push(r.url()));

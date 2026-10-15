@@ -1,4 +1,4 @@
-"""Rebuild the three licensed preview fonts; not required for normal npm builds.
+"""Rebuild the reading and annotation fonts; not required for normal npm builds.
 
 pip install fonttools brotli
 python scripts/subset-preview-fonts.py --notes /path/to/Xiaolai-Regular.ttf
@@ -12,14 +12,13 @@ from fontTools import subset
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--notes', required=True)
-parser.add_argument('--serif', default='/usr/share/fonts/opentype/noto/NotoSerifCJK-Regular.ttc')
 parser.add_argument('--sans', default='/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc')
 args = parser.parse_args()
 root = Path(__file__).resolve().parent.parent
 text = ''.join(path.read_text() for path in (root / 'src').glob('*.js'))
 characters = {c for c in text if ord(c) >= 32} | {chr(c) for c in range(32, 127)}
 report = {}
-for role, filename, index in [('serif', args.serif, 2), ('sans', args.sans, 2), ('notes', args.notes, None)]:
+for role, filename, index in [('sans', args.sans, 2), ('notes', args.notes, None)]:
     font = TTFont(filename, fontNumber=index) if index is not None else TTFont(filename)
     original = font['name'].getDebugName(6)
     cmap = font.getBestCmap()

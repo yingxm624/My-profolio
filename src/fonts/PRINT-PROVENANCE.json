@@ -2,17 +2,47 @@
   "chinese": {
     "original": "Huiwen-mincho",
     "input_sha256": "90bb5b835fd5841a46fa8fca4fe1c82aeb4b9c02be15eadc3effc60dad4fef58",
-    "bytes": 12456,
-    "hero_coverage": "complete",
-    "characters": 22
+    "bytes": 50828,
+    "title_coverage": "complete",
+    "characters": 86
   },
   "latin": {
     "original": "Special Elite",
     "input_sha256": "a776fcb4ceb8bdf03e2967688ebdad42680de5b91a7e62c17e718ae212d14bc4",
-    "bytes": 9904,
-    "hero_coverage": "complete",
-    "characters": 24
+    "bytes": 15744,
+    "title_coverage": "complete",
+    "characters": 37
   },
+  "titles": [
+    "从真实需求出发，",
+    "连接人与体验，",
+    "也留一点好奇心。",
+    "Designing thoughtful",
+    "connections between people,",
+    "services, and everyday life.",
+    "我想让复杂的事情，",
+    "变得更容易理解。",
+    "Making complex things",
+    "a little easier to understand.",
+    "项目与探索",
+    "Work & exploration",
+    "这页还没被画出来。",
+    "This page has not been drawn yet.",
+    "从花箱产品，到可搜索的生活场景",
+    "Loopy：让循环材料更容易被连接",
+    "从用户问题到产品体验",
+    "让活动内容成为可阅读的视觉体验",
+    "从策划到现场的完整呈现",
+    "Who Shapes the Post?",
+    "让专业科普更容易理解",
+    "From garden products to everyday possibilities",
+    "Loopy — connecting circular materials",
+    "From a user problem to a product experience",
+    "Turning campaign content into visual experiences",
+    "From exhibition planning to the live experience",
+    "Who Shapes the Post?",
+    "Making expert knowledge easier to follow"
+  ],
   "sources": {
     "chinese": "https://github.com/bosswnx/huiwenmincho-improved/tree/40b9dbb9bfa51bc4979b62d0dcd3bc064c5ea049",
     "chinese_author": "特里王（汇文明朝体）；bosswnx（全角标点修正）",

@@ -1,0 +1,114 @@
+/* Approved typography. Native worn outlines; no synthetic texture or faux bold. */
+@font-face{font-family:'Ying Print Chinese';src:url('./fonts/print-chinese.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:'Ying Print Typewriter';src:url('./fonts/print-latin.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap;unicode-range:U+0020-024F,U+2000-206F}
+@font-face{font-family:'Ying Study Sans';src:url('./fonts/study-sans.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:'Ying Study Notes';src:url('./fonts/study-notes.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+
+:root{
+  --type-expression:'Ying Print Typewriter','Ying Print Chinese';
+  --type-reading:'Ying Study Sans','PingFang SC','Microsoft YaHei',sans-serif;
+  --type-note:'Ying Study Notes',cursive;
+  font-family:var(--type-reading);
+}
+.main-nav,.mobile-menu{font-size:11px}
+.hero{padding-top:84px}
+.hero h1,.page-intro h1,.case-intro h1,.about-copy h1,.not-found h1{
+  font-family:var(--type-expression);
+  font-weight:400;
+  font-synthesis:none;
+  font-kerning:normal;
+  text-wrap:balance;
+  overflow-wrap:break-word;
+  color:var(--ink);
+}
+.hero h1{font-size:34px;line-height:1.48;letter-spacing:.025em;max-width:490px;margin-bottom:27px}
+.hero-bio{font-size:14px;line-height:1.95;letter-spacing:.015em;max-width:600px}
+.identity-tags{margin-bottom:24px;gap:14px}
+.identity-tags>.outline-label{font-size:11px;padding:3px 8px}
+.interest-tag{padding:2px 8px}
+.interest-tag span{font-size:11px;line-height:1.5;text-decoration:none;letter-spacing:.015em}
+.hand-note{font-family:var(--type-note);font-size:16px;font-style:normal;letter-spacing:.01em;line-height:1.5;transform:rotate(-5deg)}
+.work-card h3{font-size:14px;line-height:1.7;margin-top:14px}
+.work-category{font-size:10px;line-height:1.8}
+.section-caption{font-size:13px;line-height:1.9}
+.paper-note{padding-bottom:29px}
+.note-caption{font-size:11px;line-height:1.6}
+.note-story h3{font-size:22px;line-height:1.55;letter-spacing:.01em}
+.note-story p{font-size:13px;line-height:1.95}
+.note-story .note-question{font-size:14px;line-height:1.85}
+.note-story small{font-size:10px;line-height:1.8}
+.board-footnote{font-size:10px;line-height:1.7}
+.interaction-hint{font-size:10px;line-height:1.8}
+.contact-section>p{font-size:13px;line-height:1.9}
+.page-intro h1{font-size:31px;line-height:1.5;letter-spacing:.025em;max-width:600px;margin-bottom:17px}
+.page-intro>p{font-size:14px;line-height:1.9}
+.filters button{font-size:11px;line-height:1.7}
+.filter-result{font-size:11px}
+.case-intro h1{font-size:30px;line-height:1.55;letter-spacing:.015em;max-width:740px;margin-bottom:14px}
+.case-client{font-size:13px;line-height:1.8}
+.case-category,.case-facts dt{font-size:11px;line-height:1.8}
+.case-facts dd{font-size:12px;line-height:1.9}
+.case-toc a{font-size:11px}
+.case-section h2{font-size:22px;line-height:1.6}
+.case-section figcaption{font-size:11px;line-height:1.9}
+.evidence-note{font-size:11px;line-height:1.9}
+.about-copy h1{font-size:28px;line-height:1.55;letter-spacing:.015em;margin-bottom:29px}
+.about-copy>p{font-size:14px;line-height:2}
+.personal-details{font-size:12px;line-height:1.95}
+.skill-line{font-size:11px;line-height:1.9}
+.not-found h1{font-size:28px;line-height:1.55;max-width:650px}
+html[lang=en] .hero h1{font-size:31px;line-height:1.5;letter-spacing:-.04em;max-width:590px}
+html[lang=en] :is(.page-intro h1,.case-intro h1,.about-copy h1,.not-found h1){letter-spacing:-.035em}
+html[lang=en] .about-copy h1{font-size:26px;line-height:1.55}
+
+@media(max-width:760px){
+  .hero{padding-top:62px;min-height:630px}
+  .hero h1{font-size:30px;line-height:1.5;letter-spacing:.015em}
+  .hero-bio{max-width:460px}
+  .identity-tags{gap:10px}
+  .identity-tags>.outline-label{font-size:10px}
+  .hand-note{font-size:15px}
+  .work-card h3{font-size:13px}
+  .section-caption{font-size:12px}
+  .paper-note{padding-bottom:27px}
+  .note-caption{font-size:10px}
+  .note-story h3{font-size:19px}
+  .note-story p,.note-story .note-question{font-size:12px;line-height:1.9}
+  .note-story small{font-size:9px}
+  .board-footnote{font-size:9px}
+  .interaction-hint{font-size:9px}
+  .page-intro h1{font-size:28px}
+  .page-intro>p{font-size:13px}
+  .filters button{font-size:10px}
+  .case-intro h1{font-size:27px;line-height:1.6}
+  .case-summary,.case-text{font-size:13px;line-height:2}
+  .case-section h2{font-size:21px}
+  .case-toc a{font-size:10px}
+  .about-copy h1{font-size:25px;line-height:1.6}
+  .about-copy>p{font-size:13px}
+  .personal-details{font-size:11px}
+  html[lang=en] .hero h1{font-size:26px;line-height:1.55;letter-spacing:-.04em}
+  html[lang=en] .about-copy h1{font-size:23px;line-height:1.6}
+}
+@media(max-width:520px){
+  .hero{padding-top:54px;min-height:680px}
+  .hero h1{font-size:28px;line-height:1.55;letter-spacing:0}
+  .hero-bio{font-size:13px;line-height:2;max-width:345px}
+  .identity-tags{gap:9px}
+  .identity-tags>.outline-label{font-size:10px}
+  .work-card h3{font-size:14px}
+  .note-story h3{font-size:21px}
+  .note-story p,.note-story .note-question{font-size:13px;line-height:1.9}
+  .note-story small{font-size:10px}
+  .scrapbook[data-state=focused]{height:920px}
+  .scrapbook[data-state=focused]:has(.selected.has-second) .note-story{top:53%}
+  .board-footnote{font-size:9px}
+  .page-intro h1{font-size:27px}
+  .case-intro h1{font-size:25px;line-height:1.6}
+  .case-text,.case-summary{font-size:13px}
+  .about-copy h1{font-size:27px;line-height:1.6}
+  .about-copy>p{font-size:14px}
+  html[lang=en] .hero h1{font-size:21px;line-height:1.6;letter-spacing:-.045em}
+  html[lang=en] .case-intro h1{font-size:24px;line-height:1.55}
+  html[lang=en] .about-copy h1{font-size:25px;line-height:1.6}
+}
