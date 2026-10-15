@@ -7,13 +7,16 @@ import path from 'node:path';
 import { projects } from '../src/content.js';
 
 const root = path.resolve('dist');
+const basePath = '/My-profolio';
 const output = process.env.PORTFOLIO_OUTPUT_DIR || path.resolve('..', 'portfolio-delivery');
 const shots = path.join(output, 'v2');
 await mkdir(shots, {recursive:true});
 const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png'};
 const server = createServer(async (request, response) => {
   try {
-    const pathname = decodeURIComponent(new URL(request.url,'http://localhost').pathname);
+    const rawPath = decodeURIComponent(new URL(request.url,'http://localhost').pathname);
+    if (!rawPath.startsWith(basePath + '/')) {response.writeHead(404);response.end();return;}
+    const pathname = rawPath.slice(basePath.length);
     let file = pathname === '/offline.html' ? path.join(output,'Ying-Portfolio-v2.html') : path.resolve(root,'.'+pathname);
     if (pathname !== '/offline.html' && !file.startsWith(root + path.sep) && file !== root) {response.writeHead(403);response.end();return;}
     try {if ((await stat(file)).isDirectory()) file = path.join(file,'index.html');} catch {file = path.join(root,'index.html');}
@@ -22,7 +25,7 @@ const server = createServer(async (request, response) => {
   } catch {response.writeHead(500);response.end();}
 });
 await new Promise(resolve => server.listen(0,'127.0.0.1',resolve));
-const origin = `http://127.0.0.1:${server.address().port}`;
+const origin = `http://127.0.0.1:${server.address().port}${basePath}`;
 let browser;
 const errors = [];
 const results = [];
@@ -43,7 +46,7 @@ try {
   browser = await chromium.launch({headless:true,executablePath:process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH || (existsSync('/usr/bin/chromium') ? '/usr/bin/chromium' : undefined),args:['--no-sandbox']});
   const context = await browser.newContext({viewport:{width:1440,height:960}});
   const page = await context.newPage();page.on('pageerror',e => errors.push(e.message));
-  await page.goto(origin);
+  await page.goto(origin + '/');
   await page.locator('.intro').waitFor({state:'detached'});
   assert.match(await page.locator('h1').textContent(),/从真实需求/);
   assert.equal(await page.locator('#works .work-card').count(),documentedCount);
@@ -111,7 +114,7 @@ try {
 
   const mobileContext = await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
   const mobile = await mobileContext.newPage();mobile.on('pageerror',e => errors.push(e.message));
-  await mobile.goto(origin);await mobile.locator('.intro').waitFor({state:'detached'});await screenshot(mobile,'06-移动端.png');
+  await mobile.goto(origin + '/');await mobile.locator('.intro').waitFor({state:'detached'});await screenshot(mobile,'06-移动端.png');
   await mobile.locator('.mobile-menu').tap();await mobile.locator('.main-nav a[href="#/?section=playground"]').tap();
   await mobile.locator('[data-note="cats"]').tap();await mobile.locator('.scrapbook[data-locked="true"]').waitFor();
   assert.ok(await mobile.locator('.note-story').isVisible());await mobile.waitForTimeout(550);
@@ -121,7 +124,7 @@ try {
   record('真实触屏上下文：移动菜单、拼贴点开与关闭');
 
   const accessible = await browser.newContext({viewport:{width:1440,height:960},reducedMotion:'reduce'});
-  const reduced = await accessible.newPage();await reduced.goto(origin);assert.equal(await reduced.locator('.intro').count(),0);
+  const reduced = await accessible.newPage();await reduced.goto(origin + '/');assert.equal(await reduced.locator('.intro').count(),0);
   await reduced.mouse.move(200,200);assert.equal(await reduced.locator('.pixel-layer .is-visible').count(),0);
   await reduced.locator('[data-note="cats"]').focus();await reduced.keyboard.press('Enter');assert.equal(await reduced.locator('.scrapbook').getAttribute('data-locked'),'true');await reduced.keyboard.press('Escape');assert.equal(await reduced.locator('.scrapbook').getAttribute('data-state'),'overview');
   record('减少动态效果偏好：无开场 / 无拖尾，键盘与拼贴功能保留');

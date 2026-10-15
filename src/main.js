@@ -7,10 +7,14 @@ import { siteCopy } from './site-copy.js';
 
 const app = document.querySelector('#app');
 const esc = (value = '') => String(value).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const asset = value => globalThis.__portfolioAssets?.[value] || value;
+const asset = value => {
+  const embedded = globalThis.__portfolioAssets?.[value];
+  if (embedded) return embedded;
+  return value?.startsWith('/assets/') ? import.meta.env.BASE_URL + value.slice(1) : value;
+};
 const safeUrl = value => {
   const url = asset(value || '');
-  return /^(https?:\/\/|\/(?!\/)|data:image\/(?:jpeg|png|webp);base64,)/.test(url) ? esc(url) : '';
+  return /^(https?:\/\/|\/(?!\/)|\.\/assets\/|data:image\/(?:jpeg|png|webp);base64,)/.test(url) ? esc(url) : '';
 };
 let language = 'zh';
 try { language = localStorage.getItem('portfolio-language') === 'en' ? 'en' : 'zh'; } catch {}
