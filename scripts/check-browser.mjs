@@ -139,10 +139,10 @@ try {
     await page.locator(`[data-language="${locale}"]`).click();
     await page.evaluate(() => document.fonts.ready);
     const loaded = await page.evaluate(() => [...document.fonts].filter(font => font.status === 'loaded').map(font => font.family));
-    for (const family of ['Ying Study Serif','Ying Study Sans','Ying Study Notes']) assert.ok(loaded.includes(family), `${locale}: ${family} did not load`);
-    assert.match(await page.locator('.hero h1').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Serif/);
+    for (const family of ['Ying Print Chinese','Ying Print Typewriter','Ying Study Sans','Ying Study Notes']) assert.ok(loaded.includes(family), `${locale}: ${family} did not load`);
+    assert.match(await page.locator('.hero h1').evaluate(el => getComputedStyle(el).fontFamily),/Ying Print Chinese/);
     assert.match(await page.locator('.hero-bio').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Sans/);
-    assert.match(await page.locator('.note-caption').first().evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Notes/);
+    assert.match(await page.locator('.hand-note').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Notes/);
     await page.evaluate(() => {document.activeElement?.blur();window.scrollTo({top:0,behavior:'instant'});});
     await page.screenshot({path:path.join(typeShots,`hero-${locale}.png`),animations:'disabled'});
     await page.mouse.move(0,0);
@@ -150,7 +150,7 @@ try {
   }
   await page.locator('[data-note="cats"]').click();
   await page.locator('.scrapbook[data-locked="true"]').waitFor();
-  assert.match(await page.locator('.note-story h3').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Serif/);
+  assert.match(await page.locator('.note-story h3').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Sans/);
   assert.match(await page.locator('.note-story p').last().evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Sans/);
   await page.locator('.close-note').click();
   for (const locale of ['zh','en']) {
@@ -166,9 +166,9 @@ try {
   await page.evaluate(() => {document.activeElement?.blur();window.scrollTo({top:0,behavior:'instant'});});
   await page.screenshot({path:path.join(typeShots,'mobile-zh.png'),animations:'disabled'});
   await page.goto(origin + '/#/');
-  assert.doesNotMatch(await page.locator('.hero h1').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study/);
+  assert.doesNotMatch(await page.locator('.hero h1').evaluate(el => getComputedStyle(el).fontFamily),/Ying (Study|Print)/);
   assert.ok(!(await page.locator('body').getAttribute('class'))?.includes('type-preview-active'));
-  record('字体预览：中英文三套真实字体、局部两张拼贴、原版未受影响、四项响应式检查');
+  record('字体预览：中英文原生印刷字体、清晰正文与一处手写旁注、局部两张拼贴、原版未受影响、四项响应式检查');
 
   const offlineContext = await browser.newContext({viewport:{width:1440,height:960},reducedMotion:'reduce'});
   const offline = await offlineContext.newPage();offline.on('pageerror',e => errors.push(e.message));const requests=[];offline.on('request',r => requests.push(r.url()));

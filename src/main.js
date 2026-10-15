@@ -101,7 +101,7 @@ function home() {
   return `<main id="main" class="page-width" tabindex="-1">${hero()}${worksSection()}${board()}${contact()}</main>`;
 }
 function typographyPreview() {
-  return `<main id="main" class="page-width type-preview" tabindex="-1"><aside class="type-preview-notice"><span>${t('字体方向预览 · 仅首屏与局部拼贴','Typography study · hero & a small notebook')}</span><a class="quiet-link" href="${href()}">${t('对照当前版本','Compare with the current site')} ↗</a></aside>${hero()}${board(playground.slice(0,2))}<p class="type-preview-end">${t('衬线用于表达，正文保持清晰，手写留给照片旁的小注。此方案尚未应用到全站。','Serif for expression, sans for reading, handwriting for small notes. This study is not applied across the site.')}</p></main>`;
+  return `<main id="main" class="page-width type-preview" tabindex="-1"><aside class="type-preview-notice"><span>${t('旧铅字方向 · 局部候选预览','Letterpress direction · a local type study')}</span><a class="quiet-link" href="${href()}">${t('对照当前版本','Compare with the current site')} ↗</a></aside>${hero()}${board(playground.slice(0,2))}<p class="type-preview-end">${t('中文标题：汇文明朝体（原生磨损字形，Public Domain / CC0）；英文：Special Elite（Apache 2.0）。正文：Noto Sans；猫猫旁注：小赖字体。未加阴影、模糊或纹理滤镜，此候选尚未应用到全站。','Chinese: Huiwen Mincho (native worn outlines, Public Domain / CC0). English: Special Elite (Apache 2.0). Body: Noto Sans. Cat note: Xiaolai. No shadow, blur or texture filters; this candidate is not applied across the site.')}</p></main>`;
 }
 function worksPage() {
   const projects = getProjects();

@@ -43,9 +43,9 @@ npm run export:offline
 
 `#/type-preview` 是独立预览，仅展示首屏与两张 Playground 拼贴。当前首页、完整作品和 About 不应用该字体方案。
 
-三种角色分别为：Noto Serif CJK SC（衬线 / 现代宋体标题）、Noto Sans CJK SC（无衬线正文与操作）、Xiaolai 小赖字体（兴趣标签与照片旁短批注）。预览样式在 `src/typography-preview.css`；字体随站点托管，采用本地 WOFF2 子集，不依赖访问外部字体服务。原始许可与派生信息在 `src/fonts/`。批注不用于长段正文或关闭按钮。
+标题已按新参考改为原生旧铅字候选：中文为特里王的汇文明朝体（使用 bosswnx 全角标点修正版，字体元数据 Public Domain，仓库 CC0）；英文为 Special Elite（Apache 2.0）。不是用滤镜模拟纹理，也未声称识别出参考图的确切字体。标题按真实文案缩小并收紧行距，仅用于首屏。正文与操作为 Noto Sans CJK SC；小赖手写仅保留在猫猫旁注，照片说明和 Playground 标题改回无衬线，减少字体竞争。配色、主站和交互保留。
 
-当前字体子集包含现有文案字符；新增文字时需用完整授权字体运行 `scripts/subset-preview-fonts.py` 重新生成，不能假定包含全部汉字。普通构建无需运行 Python。中英文与移动端预览截图位于交付目录的 `typography/`。
+预览样式在 `src/typography-preview.css`；WOFF2 随站点托管，无外部字体请求。来源、作者、输入文件校验与许可在 `src/fonts/PRINT-PROVENANCE.json` 及对应许可文件。标题子集按 `src/site-copy.js` 的真实中英文首屏文案生成，缺字会中断；修改标题后用完整授权字体运行 `scripts/subset-print-fonts.py --chinese … --latin …`，运行需要 fonttools 和 brotli。正文与旁注子集仍由 `scripts/subset-preview-fonts.py` 维护。普通 npm 构建不需要 Python。
 
 - `#/`：首屏、两列真实作品、研究入口、Playground 与 Contact。
 - `#/?section=works` / `playground` / `contact`：页内定位。

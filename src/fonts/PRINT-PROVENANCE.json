@@ -1,0 +1,25 @@
+{
+  "chinese": {
+    "original": "Huiwen-mincho",
+    "input_sha256": "90bb5b835fd5841a46fa8fca4fe1c82aeb4b9c02be15eadc3effc60dad4fef58",
+    "bytes": 12456,
+    "hero_coverage": "complete",
+    "characters": 22
+  },
+  "latin": {
+    "original": "Special Elite",
+    "input_sha256": "a776fcb4ceb8bdf03e2967688ebdad42680de5b91a7e62c17e718ae212d14bc4",
+    "bytes": 9904,
+    "hero_coverage": "complete",
+    "characters": 24
+  },
+  "sources": {
+    "chinese": "https://github.com/bosswnx/huiwenmincho-improved/tree/40b9dbb9bfa51bc4979b62d0dcd3bc064c5ea049",
+    "chinese_author": "特里王（汇文明朝体）；bosswnx（全角标点修正）",
+    "chinese_license": "Font metadata: Public Domain; distribution repository: CC0-1.0 (HUIWEN-CC0.txt)",
+    "latin": "https://github.com/google/fonts/tree/main/apache/specialelite",
+    "latin_author": "Brian J. Bonislawsky / Astigmatic",
+    "latin_license": "Apache-2.0 (SPECIAL-ELITE-LICENSE.txt)",
+    "changes": "Subset, internal family rename, WOFF2 conversion only. Original outlines retained."
+  }
+}
