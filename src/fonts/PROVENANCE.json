@@ -1,0 +1,20 @@
+{
+  "serif": {
+    "original": "NotoSerifCJKsc-Regular",
+    "bytes": 285144,
+    "critical_character_coverage": "complete",
+    "characters": 766
+  },
+  "sans": {
+    "original": "NotoSansCJKsc-Regular",
+    "bytes": 205620,
+    "critical_character_coverage": "complete",
+    "characters": 766
+  },
+  "notes": {
+    "original": "Xiaolai",
+    "bytes": 133396,
+    "critical_character_coverage": "complete",
+    "characters": 766
+  }
+}

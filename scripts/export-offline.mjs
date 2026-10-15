@@ -20,7 +20,12 @@ const inline = `globalThis.__portfolioAssets=${JSON.stringify(assets)};\n${js}`;
 html = html.replace('</body>', () => `<script>${inline.replace(/<\/script/gi, '<\\/script')}</script></body>`);
 html = html.replace(/<link[^>]+rel="stylesheet"[^>]*>/g, tag => {
   const href = tag.match(/href="([^"]+)"/)[1];
-  return `<style>${fs.readFileSync(path.join('dist', href.replace(/^\//,'')), 'utf8')}</style>`;
+  const cssFile = path.join('dist', href.replace(/^\//,''));
+  const css = fs.readFileSync(cssFile, 'utf8').replace(/url\((["']?)([^)"']+\.woff2)\1\)/g, (_match, _quote, fontPath) => {
+    const file = fontPath.startsWith('/') ? path.join('dist', fontPath.slice(1)) : path.join(path.dirname(cssFile), fontPath);
+    return `url(data:font/woff2;base64,${fs.readFileSync(file).toString('base64')})`;
+  });
+  return `<style>${css}</style>`;
 });
 html = html.replace('<html lang="zh-CN">', '<html lang="zh-CN" data-offline="true">');
 const output = process.env.PORTFOLIO_OUTPUT_DIR || path.resolve('..', 'portfolio-delivery');

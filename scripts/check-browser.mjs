@@ -129,6 +129,47 @@ try {
   await reduced.locator('[data-note="cats"]').focus();await reduced.keyboard.press('Enter');assert.equal(await reduced.locator('.scrapbook').getAttribute('data-locked'),'true');await reduced.keyboard.press('Escape');assert.equal(await reduced.locator('.scrapbook').getAttribute('data-state'),'overview');
   record('减少动态效果偏好：无开场 / 无拖尾，键盘与拼贴功能保留');
 
+  const typeShots = path.join(output, 'typography');
+  await mkdir(typeShots, {recursive:true});
+  await page.setViewportSize({width:1440,height:960});
+  await page.goto(origin + '/#/type-preview');
+  await page.locator('.type-preview').waitFor();
+  assert.equal(await page.locator('[data-note]').count(),2);
+  for (const locale of ['zh','en']) {
+    await page.locator(`[data-language="${locale}"]`).click();
+    await page.evaluate(() => document.fonts.ready);
+    const loaded = await page.evaluate(() => [...document.fonts].filter(font => font.status === 'loaded').map(font => font.family));
+    for (const family of ['Ying Study Serif','Ying Study Sans','Ying Study Notes']) assert.ok(loaded.includes(family), `${locale}: ${family} did not load`);
+    assert.match(await page.locator('.hero h1').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Serif/);
+    assert.match(await page.locator('.hero-bio').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Sans/);
+    assert.match(await page.locator('.note-caption').first().evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Notes/);
+    await page.evaluate(() => {document.activeElement?.blur();window.scrollTo({top:0,behavior:'instant'});});
+    await page.screenshot({path:path.join(typeShots,`hero-${locale}.png`),animations:'disabled'});
+    await page.mouse.move(0,0);
+    await page.locator('#playground').screenshot({path:path.join(typeShots,`notebook-${locale}.png`),animations:'disabled'});
+  }
+  await page.locator('[data-note="cats"]').click();
+  await page.locator('.scrapbook[data-locked="true"]').waitFor();
+  assert.match(await page.locator('.note-story h3').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Serif/);
+  assert.match(await page.locator('.note-story p').last().evaluate(el => getComputedStyle(el).fontFamily),/Ying Study Sans/);
+  await page.locator('.close-note').click();
+  for (const locale of ['zh','en']) {
+    await page.locator(`[data-language="${locale}"]`).click();
+    for(const width of [375,768]) {
+      await page.setViewportSize({width,height:900});
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1),`Typography overflow: ${locale} ${width}`);
+    }
+  }
+  await page.setViewportSize({width:1440,height:960});
+  await page.locator('[data-language="zh"]').click();
+  await page.setViewportSize({width:375,height:900});
+  await page.evaluate(() => {document.activeElement?.blur();window.scrollTo({top:0,behavior:'instant'});});
+  await page.screenshot({path:path.join(typeShots,'mobile-zh.png'),animations:'disabled'});
+  await page.goto(origin + '/#/');
+  assert.doesNotMatch(await page.locator('.hero h1').evaluate(el => getComputedStyle(el).fontFamily),/Ying Study/);
+  assert.ok(!(await page.locator('body').getAttribute('class'))?.includes('type-preview-active'));
+  record('字体预览：中英文三套真实字体、局部两张拼贴、原版未受影响、四项响应式检查');
+
   const offlineContext = await browser.newContext({viewport:{width:1440,height:960},reducedMotion:'reduce'});
   const offline = await offlineContext.newPage();offline.on('pageerror',e => errors.push(e.message));const requests=[];offline.on('request',r => requests.push(r.url()));
   await offline.goto(origin + '/offline.html');await offlineContext.setOffline(true);
@@ -136,6 +177,10 @@ try {
   await offline.locator('[data-note="garden"]').click();await offline.locator('.note-story').waitFor();
   assert.match(await offline.locator('.note-story').textContent(),/植物/);await offline.locator('.close-note').click();
   await offline.locator('[data-language="en"]').click();assert.match(await offline.locator('h1').textContent(),/Designing thoughtful/);
+  await offline.evaluate(() => {location.hash = '#/type-preview';});
+  await offline.locator('.type-preview').waitFor();
+  await offline.evaluate(() => document.fonts.ready);
+  assert.ok(await offline.evaluate(() => [...document.fonts].every(font => font.status === 'loaded')));
   // Hash navigation stays local even when network is disabled.
   await offline.evaluate(() => { location.hash = '#/works/loopy'; });await offline.locator('.case-intro').waitFor();await checkImages(offline);
   assert.ok((await offline.locator('svg image').first().getAttribute('href')).startsWith('data:image/png;base64,'));

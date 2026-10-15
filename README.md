@@ -39,6 +39,14 @@ npm run export:offline
 
 ## 页面与交互
 
+### 字体方向预览
+
+`#/type-preview` 是独立预览，仅展示首屏与两张 Playground 拼贴。当前首页、完整作品和 About 不应用该字体方案。
+
+三种角色分别为：Noto Serif CJK SC（衬线 / 现代宋体标题）、Noto Sans CJK SC（无衬线正文与操作）、Xiaolai 小赖字体（兴趣标签与照片旁短批注）。预览样式在 `src/typography-preview.css`；字体随站点托管，采用本地 WOFF2 子集，不依赖访问外部字体服务。原始许可与派生信息在 `src/fonts/`。批注不用于长段正文或关闭按钮。
+
+当前字体子集包含现有文案字符；新增文字时需用完整授权字体运行 `scripts/subset-preview-fonts.py` 重新生成，不能假定包含全部汉字。普通构建无需运行 Python。中英文与移动端预览截图位于交付目录的 `typography/`。
+
 - `#/`：首屏、两列真实作品、研究入口、Playground 与 Contact。
 - `#/?section=works` / `playground` / `contact`：页内定位。
 - `#/works`：完整作品列表与分类；未完成方向在折叠区保留案例框架。

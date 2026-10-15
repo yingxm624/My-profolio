@@ -1,4 +1,5 @@
 import './style.css';
+import './typography-preview.css';
 import { profile as originalProfile, projects as originalProjects, caseSections as originalSections } from './content.js';
 import { englishProfile, categories, sectionTitles, sectionHints, localiseProjects } from './english.js';
 import { playground } from './playground.js';
@@ -63,7 +64,7 @@ function icon(kind) {
   return `<svg viewBox="0 0 32 32" aria-hidden="true">${paths[kind]}</svg>`;
 }
 function header(path) {
-  return `<a class="skip-link" href="${href(path, 'main')}">${t('跳至主要内容','Skip to content')}</a><header class="site-header"><div class="header-inner"><a href="${href()}" class="wordmark" aria-label="${t('作品集首页','Portfolio home')}">${cat('logo')}<span>${esc(originalProfile.name || 'YING ZHANG')}</span></a><button class="mobile-menu" aria-expanded="false" aria-controls="main-navigation">${t('菜单','Menu')} <span aria-hidden="true">＋</span></button><nav id="main-navigation" class="main-nav" aria-label="${t('主导航','Main navigation')}"><div class="language-switch" role="group" aria-label="${t('切换语言','Change language')}"><button data-language="en" aria-pressed="${language === 'en'}" lang="en">EN</button><button data-language="zh" aria-pressed="${language === 'zh'}" lang="zh">中文</button></div><a href="${href('/', 'works')}" ${path.startsWith('/works') ? 'aria-current="page"' : ''}>WORKS</a><a href="${href('/', 'playground')}">PLAYGROUND</a><a href="${href('/about')}" ${path === '/about' ? 'aria-current="page"' : ''}>ABOUT</a><a href="${href('/', 'contact')}">CONTACT</a></nav></div></header>`;
+  return `<a class="skip-link" href="${href(path, 'main')}">${t('跳至主要内容','Skip to content')}</a><header class="site-header"><div class="header-inner"><a href="${href()}" class="wordmark" aria-label="${t('作品集首页','Portfolio home')}">${cat('logo')}<span>${esc(originalProfile.name || 'YING ZHANG')}</span></a><button class="mobile-menu" aria-expanded="false" aria-controls="main-navigation">${t('菜单','Menu')} <span aria-hidden="true">＋</span></button><nav id="main-navigation" class="main-nav" aria-label="${t('主导航','Main navigation')}"><div class="language-switch" role="group" aria-label="${t('切换语言','Change language')}"><button data-language="en" aria-pressed="${language === 'en'}" lang="en">EN</button><button data-language="zh" aria-pressed="${language === 'zh'}" lang="zh">中文</button></div><a href="${href('/', 'works')}" ${path.startsWith('/works') ? 'aria-current="page"' : ''}>WORKS</a><a href="${href(path === '/type-preview' ? '/type-preview' : '/', 'playground')}">PLAYGROUND</a><a href="${href('/about')}" ${path === '/about' ? 'aria-current="page"' : ''}>ABOUT</a><a href="${href('/', 'contact')}">CONTACT</a></nav></div></header>`;
 }
 function footer() {
   return `<footer class="site-footer page-width"><span>${t('设计与创作','Design & personal work')} · ${esc(originalProfile.name)}</span><span>© ${new Date().getFullYear()} · ${t('慢慢观察，持续生长。','Stay curious. Keep making.')}</span></footer>`;
@@ -75,7 +76,7 @@ function contact() {
   return `<section id="contact" class="contact-section"><h2 class="outline-label">↗ Contact</h2><p>${t('欢迎聊聊设计、创作与新的可能。','Open to conversations about design, making and new possibilities.')}</p><div class="contact-links">${email ? `<a href="mailto:${esc(email)}">${icon('email')}<span>EMAIL</span></a>` : `<span class="contact-pending" aria-disabled="true">${icon('email')}<span>EMAIL</span><small>${t('待补充','To be added')}</small></span>`}${resume ? `<a href="${resume}" target="_blank" rel="noopener">${icon('resume')}<span>${t('简历','RESUME')}</span></a>` : `<span class="contact-pending" aria-disabled="true">${icon('resume')}<span>${t('简历','RESUME')}</span><small>${t('待补充','To be added')}</small></span>`}${socials.length ? socials.map(item => `<a href="${safeUrl(item.url)}" target="_blank" rel="noopener">${icon('social')}<span>${esc(language === 'en' ? item.labelEn || item.label : item.label)}</span></a>`).join('') : `<span class="contact-pending" aria-disabled="true">${icon('social')}<span>${t('社交平台','SOCIAL')}</span><small>${t('待补充','To be added')}</small></span>`}</div><a class="small-button back-top" href="${href(route().path, 'main')}">↗ ${t('返回顶部','Back to top')}</a></section>`;
 }
 function hero() {
-  return `<section class="hero" aria-labelledby="hero-title"><div class="hero-copy"><div class="identity-tags"><span class="outline-label">${esc(copy('role'))}</span><div class="interest-wrap"><button class="outline-label interest-tag" aria-expanded="false" aria-controls="cat-preview"><span>${esc(copy('interest'))}</span></button><div id="cat-preview" class="interest-bubble" hidden><span class="bubble-label">${t('一些猫猫时刻','SOME CAT MOMENTS')}</span>${cat('sleep')}<svg viewBox="0 0 230 130" class="bubble-outline" aria-hidden="true"><path d="M10 65Q-8 18 35 22 25-1 63 11 88-4 110 11 150-4 153 23 200 2 211 40 244 64 213 86 218 122 166 113 136 140 108 117 61 135 47 111 9 122 10 87Z"/></svg></div></div></div><h1 id="hero-title">${lines('heroTitle')}</h1><p class="hero-bio">${lines('heroBio')}</p></div><div class="companion-wrap"><button class="cat-companion" aria-label="${t('摸摸猫猫','Say hello to the cat')}"><span class="cat-sitting">${cat('sit')}</span><span class="cat-sleeping">${cat('sleep')}</span></button><span class="hand-note">${t('陪你慢慢看。','take your time.')}</span><span class="cat-response" role="status" aria-live="polite"></span></div><a class="quiet-scroll" href="${href('/', 'works')}">${t('往下看看','a little further down')} <span aria-hidden="true">↓</span></a></section>`;
+  return `<section class="hero" aria-labelledby="hero-title"><div class="hero-copy"><div class="identity-tags"><span class="outline-label">${esc(copy('role'))}</span><div class="interest-wrap"><button class="outline-label interest-tag" aria-expanded="false" aria-controls="cat-preview"><span>${esc(copy('interest'))}</span></button><div id="cat-preview" class="interest-bubble" hidden><span class="bubble-label">${t('一些猫猫时刻','SOME CAT MOMENTS')}</span>${cat('sleep')}<svg viewBox="0 0 230 130" class="bubble-outline" aria-hidden="true"><path d="M10 65Q-8 18 35 22 25-1 63 11 88-4 110 11 150-4 153 23 200 2 211 40 244 64 213 86 218 122 166 113 136 140 108 117 61 135 47 111 9 122 10 87Z"/></svg></div></div></div><h1 id="hero-title">${lines('heroTitle')}</h1><p class="hero-bio">${lines('heroBio')}</p></div><div class="companion-wrap"><button class="cat-companion" aria-label="${t('摸摸猫猫','Say hello to the cat')}"><span class="cat-sitting">${cat('sit')}</span><span class="cat-sleeping">${cat('sleep')}</span></button><span class="hand-note">${t('陪你慢慢看。','take your time.')}</span><span class="cat-response" role="status" aria-live="polite"></span></div><a class="quiet-scroll" href="${href(route().path === '/type-preview' ? '/type-preview' : '/', route().path === '/type-preview' ? 'playground' : 'works')}">${t('往下看看','a little further down')} <span aria-hidden="true">↓</span></a></section>`;
 }
 function card(project) {
   const cover = safeUrl(project.cover);
@@ -93,11 +94,14 @@ function noteImage(item, second = false) {
   if (src === 'cat' || src === 'cat-sleep') return cat(src === 'cat' ? 'sit' : 'sleep', '', false);
   return `<img src="${safeUrl(src)}" alt="${esc(item.title[language === 'en' ? 1 : 0])}" loading="lazy" width="1500" height="1000">`;
 }
-function board() {
-  return `<section id="playground" class="playground-section"><h2 class="outline-label">${t('一些兴趣，和没停止的思考','Things I make & keep thinking about')}</h2><p class="section-caption">${t('个人手绘与作品细节摘录。点开一张，慢慢看。','Personal drawings and details from my work. Open a little story.')}</p><div class="scrapbook" data-state="overview" aria-label="${t('交互作品拼贴','Interactive creative notebook')}"><div class="board-guide" aria-hidden="true"><span>01 / ${t('小小的观察','little observations')}</span>${doodle('arrow')}</div>${playground.map((item, index) => `<button class="paper-note note-${index}" data-note="${item.id}" aria-pressed="false" aria-controls="note-story"><span class="paper-photo">${noteImage(item)}<span class="second-photo">${noteImage(item, true)}</span></span><span class="note-caption">${esc(item.title[language === 'en' ? 1 : 0])}</span>${index === 0 || index === 2 ? doodle('clip') : ''}</button>`).join('')}<aside id="note-story" class="note-story" aria-live="polite" aria-atomic="true" hidden></aside><button class="close-note small-button" aria-label="${t('关闭，返回拼贴总览','Close and return to collage')}" hidden>× ${t('返回总览','Overview')}</button><div class="board-cat" aria-hidden="true">${cat('sleep')}</div><span class="board-footnote" aria-hidden="true">${t('片段、草图，以及一些小事。','Fragments, sketches & small things.')}</span></div><p class="interaction-hint">${t('悬停或聚焦预览 · 点击固定展开 · Esc 返回','Hover or focus to preview · Click to keep open · Esc to return')}</p></section>`;
+function board(items = playground) {
+  return `<section id="playground" class="playground-section"><h2 class="outline-label">${t('一些兴趣，和没停止的思考','Things I make & keep thinking about')}</h2><p class="section-caption">${t('个人手绘与作品细节摘录。点开一张，慢慢看。','Personal drawings and details from my work. Open a little story.')}</p><div class="scrapbook" data-state="overview" aria-label="${t('交互作品拼贴','Interactive creative notebook')}"><div class="board-guide" aria-hidden="true"><span>01 / ${t('小小的观察','little observations')}</span>${doodle('arrow')}</div>${items.map((item, index) => `<button class="paper-note note-${index}" data-note="${item.id}" aria-pressed="false" aria-controls="note-story"><span class="paper-photo">${noteImage(item)}<span class="second-photo">${noteImage(item, true)}</span></span><span class="note-caption">${esc(item.title[language === 'en' ? 1 : 0])}</span>${index === 0 || index === 2 ? doodle('clip') : ''}</button>`).join('')}<aside id="note-story" class="note-story" aria-live="polite" aria-atomic="true" hidden></aside><button class="close-note small-button" aria-label="${t('关闭，返回拼贴总览','Close and return to collage')}" hidden>× ${t('返回总览','Overview')}</button><div class="board-cat" aria-hidden="true">${cat('sleep')}</div><span class="board-footnote" aria-hidden="true">${t('片段、草图，以及一些小事。','Fragments, sketches & small things.')}</span></div><p class="interaction-hint">${t('悬停或聚焦预览 · 点击固定展开 · Esc 返回','Hover or focus to preview · Click to keep open · Esc to return')}</p></section>`;
 }
 function home() {
   return `<main id="main" class="page-width" tabindex="-1">${hero()}${worksSection()}${board()}${contact()}</main>`;
+}
+function typographyPreview() {
+  return `<main id="main" class="page-width type-preview" tabindex="-1"><aside class="type-preview-notice"><span>${t('字体方向预览 · 仅首屏与局部拼贴','Typography study · hero & a small notebook')}</span><a class="quiet-link" href="${href()}">${t('对照当前版本','Compare with the current site')} ↗</a></aside>${hero()}${board(playground.slice(0,2))}<p class="type-preview-end">${t('衬线用于表达，正文保持清晰，手写留给照片旁的小注。此方案尚未应用到全站。','Serif for expression, sans for reading, handwriting for small notes. This study is not applied across the site.')}</p></main>`;
 }
 function worksPage() {
   const projects = getProjects();
@@ -140,17 +144,19 @@ function render({preserveScroll = false} = {}) {
   const pathChanged = current.path !== lastPath;
   let content;
   if (current.path === '/') content = home();
+  else if (current.path === '/type-preview') content = typographyPreview();
   else if (current.path === '/works') content = worksPage();
   else if (current.path === '/about') content = about();
   else if (/^\/works\/[^/]+$/.test(current.path)) content = detail(current.path.split('/')[2]);
   else content = notFound();
   document.documentElement.lang = language === 'en' ? 'en' : 'zh-CN';
+  document.body.classList.toggle('type-preview-active',current.path === '/type-preview');
   const project = getProjects().find(p => current.path === '/works/' + p.slug);
-  document.title = `${project?.title || (current.path === '/about' ? t('关于','About') : current.path === '/works' ? t('作品','Work') : t('作品与观察','Work & observations'))} · ${originalProfile.name}`;
+  document.title = `${project?.title || (current.path === '/type-preview' ? t('字体预览','Typography study') : current.path === '/about' ? t('关于','About') : current.path === '/works' ? t('作品','Work') : t('作品与观察','Work & observations'))} · ${originalProfile.name}`;
   app.innerHTML = header(current.path) + content + footer();
   bindBoard();
   bindInterest();
-  if (activeNote && current.path === '/') setNote(activeNote, lockedNote);
+  if (activeNote && (current.path === '/' || current.path === '/type-preview')) setNote(activeNote, lockedNote);
   requestAnimationFrame(() => {
     if (preserveScroll) window.scrollTo(0,y);
     else if (current.section) document.getElementById(current.section)?.scrollIntoView();
@@ -272,7 +278,7 @@ window.addEventListener('hashchange', () => {
     document.getElementById(current.section)?.scrollIntoView();
     return;
   }
-  if (current.path !== '/') { activeNote = null;lockedNote = false; }
+  if (current.path !== lastPath) { activeNote = null;lockedNote = false; }
   render();
 });
 
